@@ -1,0 +1,443 @@
+2025-03-14 20:50:53,380 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 20:51:13,703 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 20:51:13,703 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 20:51:15,789 - OLLM_Note_Flow - ERROR - 应用程序启动失败: name 'QFrame' is not defined
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 59, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 58, in __init__
+    self.create_top_control_panel()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 126, in create_top_control_panel
+    separator = QFrame()
+                ^^^^^^
+NameError: name 'QFrame' is not defined
+2025-03-14 20:55:35,172 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 20:55:35,172 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 20:55:37,697 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 20:55:45,677 - OLLM_Note_Flow - INFO - 尝试启动Ollama服务
+2025-03-14 20:57:14,060 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 20:57:14,060 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 20:57:16,438 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 21:00:31,153 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 21:00:31,153 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 21:00:34,298 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 21:00:44,278 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 21:00:44,278 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 21:00:47,510 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 21:00:54,484 - OLLM_Note_Flow - ERROR - 未捕获的异常: No module named 'ollama_handler'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 270, in on_model_source_changed
+    from ollama_handler import get_api_handler
+ModuleNotFoundError: No module named 'ollama_handler'
+2025-03-14 21:01:32,643 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 21:01:32,643 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 21:01:34,734 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 21:01:51,748 - OLLM_Note_Flow - INFO - 尝试启动Ollama服务
+2025-03-14 21:05:00,948 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 21:05:00,949 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 21:05:03,881 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 21:05:07,286 - OLLM_Note_Flow - INFO - 尝试启动Ollama服务
+2025-03-14 21:18:36,662 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 21:18:36,663 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 21:18:38,268 - OLLM_Note_Flow - ERROR - 应用程序启动失败: No module named 'config'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 71, in __init__
+    self.create_tab_widget()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 192, in create_tab_widget
+    self.init_ui_components()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 1112, in init_ui_components
+    from feature import CompletionTab, FileProcessingTab, ChatTab
+  File "d:\Document\OLLMNoteFlow\feature.py", line 9, in <module>
+    from config import Config
+ModuleNotFoundError: No module named 'config'
+2025-03-14 21:19:02,529 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 21:19:02,530 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 21:19:04,945 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 21:19:09,273 - OLLM_Note_Flow - INFO - 尝试启动Ollama服务
+2025-03-14 21:22:06,661 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 21:22:06,663 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 21:22:07,930 - OLLM_Note_Flow - ERROR - 应用程序启动失败: No module named 'file_drop_zone'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 71, in __init__
+    self.create_tab_widget()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 192, in create_tab_widget
+    self.init_ui_components()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 1112, in init_ui_components
+    from feature import CompletionTab, FileProcessingTab, ChatTab
+  File "d:\Document\OLLMNoteFlow\feature.py", line 7, in <module>
+    from file_drop_zone import FileDropZone
+ModuleNotFoundError: No module named 'file_drop_zone'
+2025-03-14 21:22:52,709 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 21:22:52,709 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 21:22:54,925 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 21:25:50,445 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 21:25:50,445 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 21:25:51,709 - OLLM_Note_Flow - ERROR - 应用程序启动失败: No module named 'feature'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 71, in __init__
+    self.create_tab_widget()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 192, in create_tab_widget
+    self.init_ui_components()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 1112, in init_ui_components
+    from feature import CompletionTab, FileProcessingTab, ChatTab
+ModuleNotFoundError: No module named 'feature'
+2025-03-14 21:42:25,059 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 21:42:25,059 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 21:42:26,755 - OLLM_Note_Flow - ERROR - 应用程序启动失败: cannot import name 'QFont' from 'PyQt5.QtWidgets' (C:\Users\16000\AppData\Local\Programs\Python\Python311\Lib\site-packages\PyQt5\QtWidgets.pyd)
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 71, in __init__
+    self.create_tab_widget()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 192, in create_tab_widget
+    self.init_ui_components()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 1112, in init_ui_components
+    from ui.tabs import FileProcessingTab, ChatTab
+  File "d:\Document\OLLMNoteFlow\ui\tabs\__init__.py", line 7, in <module>
+    from .model import ModelManagerTab
+  File "d:\Document\OLLMNoteFlow\ui\tabs\model.py", line 6, in <module>
+    from PyQt5.QtWidgets import QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QFont
+ImportError: cannot import name 'QFont' from 'PyQt5.QtWidgets' (C:\Users\16000\AppData\Local\Programs\Python\Python311\Lib\site-packages\PyQt5\QtWidgets.pyd)
+2025-03-14 21:44:06,304 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 21:44:06,305 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 21:44:08,334 - OLLM_Note_Flow - ERROR - 应用程序启动失败: cannot import name 'ChatTab' from 'ui.tabs' (d:\Document\OLLMNoteFlow\ui\tabs\__init__.py)
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 71, in __init__
+    self.create_tab_widget()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 192, in create_tab_widget
+    self.init_ui_components()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 1112, in init_ui_components
+    from ui.tabs import FileProcessingTab, ChatTab
+ImportError: cannot import name 'ChatTab' from 'ui.tabs' (d:\Document\OLLMNoteFlow\ui\tabs\__init__.py)
+2025-03-14 21:44:53,236 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 21:44:53,236 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 21:44:55,103 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 21:46:36,448 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 21:46:36,448 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 21:46:38,228 - OLLM_Note_Flow - ERROR - 应用程序启动失败: name 'QHBoxLayout' is not defined
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 71, in __init__
+    self.create_tab_widget()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 192, in create_tab_widget
+    self.init_ui_components()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 1114, in init_ui_components
+    self.tabs.addTab(FileProcessingTab(self.api_handler), '文件处理')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\tabs\file.py", line 20, in __init__
+    self.setup_ui_components()
+  File "d:\Document\OLLMNoteFlow\ui\tabs\file.py", line 49, in setup_ui_components
+    system_prompt_layout = QHBoxLayout()
+                           ^^^^^^^^^^^
+NameError: name 'QHBoxLayout' is not defined
+2025-03-14 21:46:55,709 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 21:46:55,709 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 21:46:58,075 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 22:05:51,012 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 22:05:51,013 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 22:05:52,893 - OLLM_Note_Flow - ERROR - 应用程序启动失败: 'MainWindow' object has no attribute 'install_ollama_model'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 56, in __init__
+    self.create_top_control_panel()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 157, in create_top_control_panel
+    self.install_model_btn.clicked.connect(self.install_ollama_model)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MainWindow' object has no attribute 'install_ollama_model'
+2025-03-14 22:08:19,750 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 22:08:19,750 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 22:08:19,763 - OLLM_Note_Flow - ERROR - 应用程序启动失败: name 'ModelSelectorHelper' is not defined
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 39, in __init__
+    self.model_selector_helper = ModelSelectorHelper()
+                                 ^^^^^^^^^^^^^^^^^^^
+NameError: name 'ModelSelectorHelper' is not defined
+2025-03-14 22:10:21,539 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 22:10:21,539 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 22:10:22,991 - OLLM_Note_Flow - ERROR - 应用程序启动失败: 'MainWindow' object has no attribute 'install_ollama_model'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 59, in __init__
+    self.create_top_control_panel()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 160, in create_top_control_panel
+    self.install_model_btn.clicked.connect(self.install_ollama_model)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MainWindow' object has no attribute 'install_ollama_model'
+2025-03-14 22:10:35,676 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 22:10:35,677 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 22:10:37,487 - OLLM_Note_Flow - ERROR - 应用程序启动失败: No module named 'ui.tabs.model'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 74, in __init__
+    self.create_tab_widget()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 195, in create_tab_widget
+    self.init_ui_components()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 894, in init_ui_components
+    from ui.tabs import FileProcessingTab, ChatTab
+  File "d:\Document\OLLMNoteFlow\ui\tabs\__init__.py", line 7, in <module>
+    from .model import ModelManagerTab
+ModuleNotFoundError: No module named 'ui.tabs.model'
+2025-03-14 22:11:15,486 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 22:11:15,486 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 22:11:18,157 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 22:21:45,336 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 22:21:45,336 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 22:21:45,368 - OLLM_Note_Flow - ERROR - 应用程序启动失败: 'MainWindow' object has no attribute 'model_selector'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 39, in __init__
+    self.remote_api_manager = RemoteApiManager(self.model_selector)
+                                               ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MainWindow' object has no attribute 'model_selector'
+2025-03-14 22:24:51,747 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 22:24:51,747 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 22:24:52,918 - OLLM_Note_Flow - ERROR - 应用程序启动失败: 'MainWindow' object has no attribute 'model_manager'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 57, in __init__
+    self.create_top_control_panel()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 162, in create_top_control_panel
+    self.install_model_btn.clicked.connect(self.model_manager.install_ollama_model)
+                                           ^^^^^^^^^^^^^^^^^^
+AttributeError: 'MainWindow' object has no attribute 'model_manager'
+2025-03-14 22:25:39,191 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 22:25:39,191 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 22:25:40,713 - OLLM_Note_Flow - ERROR - 应用程序启动失败: 'MainWindow' object has no attribute 'model_manager'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 58, in __init__
+    self.create_top_control_panel()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 163, in create_top_control_panel
+    self.install_model_btn.clicked.connect(self.model_manager.install_ollama_model)
+                                           ^^^^^^^^^^^^^^^^^^
+AttributeError: 'MainWindow' object has no attribute 'model_manager'
+2025-03-14 22:28:53,780 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 22:28:53,782 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 22:28:55,188 - OLLM_Note_Flow - ERROR - 应用程序启动失败: 'MainWindow' object has no attribute 'model_manager'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 58, in __init__
+    self.create_top_control_panel()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 163, in create_top_control_panel
+    self.install_model_btn.clicked.connect(self.model_manager.install_ollama_model)
+                                           ^^^^^^^^^^^^^^^^^^
+AttributeError: 'MainWindow' object has no attribute 'model_manager'
+2025-03-14 22:29:32,645 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 22:29:32,645 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 22:29:34,198 - OLLM_Note_Flow - ERROR - 应用程序启动失败: 'MainWindow' object has no attribute 'on_model_selector_activated'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 74, in __init__
+    self.model_selector.activated.connect(self.on_model_selector_activated)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MainWindow' object has no attribute 'on_model_selector_activated'
+2025-03-14 22:31:00,974 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 22:31:00,974 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 22:31:03,172 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 23:00:42,456 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:00:42,456 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:00:43,126 - OLLM_Note_Flow - ERROR - 应用程序启动失败: name 'UIHelper' is not defined
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 58, in __init__
+    self.create_top_control_panel()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 109, in create_top_control_panel
+    top_panel, top_bar = UIHelper.create_styled_frame(horizontal=True)
+                         ^^^^^^^^
+NameError: name 'UIHelper' is not defined
+2025-03-14 23:01:26,431 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:01:26,431 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:01:27,125 - OLLM_Note_Flow - ERROR - 应用程序启动失败: name 'UIHelper' is not defined
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 58, in __init__
+    self.create_top_control_panel()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 109, in create_top_control_panel
+    top_panel, top_bar = UIHelper.create_styled_frame(horizontal=True)
+                         ^^^^^^^^
+NameError: name 'UIHelper' is not defined
+2025-03-14 23:02:06,829 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:02:06,829 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:02:07,579 - OLLM_Note_Flow - ERROR - 应用程序启动失败: type object 'UIHelper' has no attribute 'create_styled_label'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 58, in __init__
+    self.create_top_control_panel()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 112, in create_top_control_panel
+    model_source_label = UIHelper.create_styled_label('模型来源:', is_title=True)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'UIHelper' has no attribute 'create_styled_label'
+2025-03-14 23:02:50,891 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:02:50,892 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:02:52,746 - OLLM_Note_Flow - ERROR - 应用程序启动失败: 'MainWindow' object has no attribute 'model_manager'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 58, in __init__
+    self.create_top_control_panel()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 163, in create_top_control_panel
+    self.install_model_btn.clicked.connect(self.model_manager.install_ollama_model)
+                                           ^^^^^^^^^^^^^^^^^^
+AttributeError: 'MainWindow' object has no attribute 'model_manager'
+2025-03-14 23:03:36,014 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:03:36,014 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:03:37,536 - OLLM_Note_Flow - ERROR - 应用程序启动失败: 'MainWindow' object has no attribute 'on_model_selector_activated'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 76, in __init__
+    self.model_selector.activated.connect(self.on_model_selector_activated)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MainWindow' object has no attribute 'on_model_selector_activated'
+2025-03-14 23:04:37,022 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:04:37,022 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:04:39,525 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 23:04:53,594 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:04:53,594 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:04:56,246 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 23:04:59,246 - OLLM_Note_Flow - ERROR - 未捕获的异常: 'MainWindow' object has no attribute 'update_remote_config_selector'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 326, in on_model_source_changed
+    self.update_remote_config_selector()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MainWindow' object has no attribute 'update_remote_config_selector'
+2025-03-14 23:06:17,656 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:06:17,656 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:06:18,362 - OLLM_Note_Flow - ERROR - 应用程序启动失败: 'RemoteApiManager' object has no attribute 'on_model_selector_activated'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 76, in __init__
+    self.model_selector.activated.connect(self.remote_api_manager.on_model_selector_activated)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'RemoteApiManager' object has no attribute 'on_model_selector_activated'
+2025-03-14 23:06:44,929 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:06:44,929 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:06:45,961 - OLLM_Note_Flow - ERROR - 应用程序启动失败: 'RemoteApiManager' object has no attribute 'on_model_selector_activated'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 76, in __init__
+    self.model_selector.activated.connect(self.remote_api_manager.on_model_selector_activated)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'RemoteApiManager' object has no attribute 'on_model_selector_activated'
+2025-03-14 23:06:53,912 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:06:53,914 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:06:54,874 - OLLM_Note_Flow - ERROR - 应用程序启动失败: 'OllamaModelManager' object has no attribute 'on_model_selector_activated'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 76, in __init__
+    self.model_selector.activated.connect(self.model_manager.on_model_selector_activated)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'OllamaModelManager' object has no attribute 'on_model_selector_activated'
+2025-03-14 23:07:39,822 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:07:39,823 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:07:40,754 - OLLM_Note_Flow - ERROR - 应用程序启动失败: 'MainWindow' object has no attribute 'update_remote_config_selector'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 85, in __init__
+    self.initialize_model_selector()
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 272, in initialize_model_selector
+    self.update_remote_config_selector()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MainWindow' object has no attribute 'update_remote_config_selector'
+2025-03-14 23:07:49,766 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:07:49,767 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:07:50,899 - OLLM_Note_Flow - ERROR - 应用程序启动失败: 'MainWindow' object has no attribute 'update_remote_config_selector'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 99, in __init__
+    self.update_remote_config_selector()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MainWindow' object has no attribute 'update_remote_config_selector'
+2025-03-14 23:08:29,125 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:08:29,125 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:08:29,861 - OLLM_Note_Flow - ERROR - 应用程序启动失败: 'MainWindow' object has no attribute 'update_remote_config_selector'
+Traceback (most recent call last):
+  File "d:\Document\OLLMNoteFlow\main.py", line 21, in <module>
+    window = MainWindow()
+             ^^^^^^^^^^^^
+  File "d:\Document\OLLMNoteFlow\ui\main_window.py", line 99, in __init__
+    self.update_remote_config_selector()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MainWindow' object has no attribute 'update_remote_config_selector'
+2025-03-14 23:17:06,375 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:17:06,375 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:17:08,670 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 23:26:19,924 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:26:19,924 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:26:22,150 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 23:30:45,794 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:30:45,794 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:30:47,461 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 23:33:05,030 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:33:05,031 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:33:06,814 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 23:40:56,318 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:40:56,319 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:40:58,119 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 23:42:00,096 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:42:00,097 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:42:02,168 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 23:42:11,696 - OLLM_Note_Flow - INFO - 尝试启动Ollama服务
+2025-03-14 23:55:29,943 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:55:29,943 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:55:32,688 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 23:55:42,978 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:55:42,979 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:55:45,527 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 23:56:26,501 - OLLM_Note_Flow - INFO - 应用程序启动
+2025-03-14 23:56:26,501 - OLLM_Note_Flow - INFO - 安装全局异常处理器
+2025-03-14 23:56:29,499 - OLLM_Note_Flow - INFO - 主窗口显示
+2025-03-14 23:56:34,180 - OLLM_Note_Flow - INFO - 尝试启动Ollama服务

@@ -1,0 +1,7 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/images">
+        <file>wechat_qr.png</file>
+        <file>alipay_qr.png</file>
+    </qresource>
+</RCC>  
