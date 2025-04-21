@@ -1,0 +1,7 @@
+**/__pycache__
+core/
+dist/
+build
+
+.qrc
+.csv

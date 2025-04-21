@@ -9,9 +9,6 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt, QThread, pyqtSignal, QUrl
 from PyQt5.QtGui import QDesktopServices
-import platform
-import subprocess
-import os
 from core import Config, Logger
 
 class ModelManager:

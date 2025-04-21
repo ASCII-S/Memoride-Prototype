@@ -5,7 +5,7 @@
 
 from PyQt5.QtCore import QObject, pyqtSignal
 from core import Config
-from .base import BaseTab
+from ui.tabs.base import BaseTab
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QPushButton, QTextEdit, QLabel
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QThreadPool, QRunnable

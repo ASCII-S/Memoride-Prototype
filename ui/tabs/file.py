@@ -13,7 +13,7 @@ import json
 from ui.components.file_drop_zone import FileDropZone
 from core.logging import Logger  # 导入日志模块
 from core import Config
-from .base import BaseTab
+from ui.tabs.base import BaseTab
 
 
 class FileProcessingTab(BaseTab):
@@ -25,9 +25,34 @@ class FileProcessingTab(BaseTab):
         self.output_files = []  # 存储生成的输出文件列表
         
         # 由于生成学习卡片是默认选择的功能，提前准备好输出目录
-        output_dir = "output_cards"
+        # 使用安全的用户目录保存输出卡片，避免权限问题
+        try:
+            # 首先尝试使用APPDATA环境变量(Windows)
+            if 'APPDATA' in os.environ:
+                output_dir = os.path.join(os.environ['APPDATA'], 'Memoride', 'output_cards')
+            # 其次尝试使用用户主目录
+            elif 'HOME' in os.environ:
+                output_dir = os.path.join(os.environ['HOME'], '.memoride', 'output_cards')
+            # 最后使用临时目录
+            else:
+                import tempfile
+                output_dir = os.path.join(tempfile.gettempdir(), 'memoride_output_cards')
+        except Exception as e:
+            # 出错时使用当前目录下的output_cards目录
+            print(f"创建输出目录路径时出错: {str(e)}")
+            output_dir = "output_cards"
+            
         if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
+            try:
+                os.makedirs(output_dir)
+                print(f"已创建输出目录: {output_dir}")
+            except Exception as e:
+                print(f"创建输出目录失败: {str(e)}")
+                # 如果无法创建目录，回退到当前目录
+                output_dir = "output_cards"
+                if not os.path.exists(output_dir):
+                    os.makedirs(output_dir)
+                    
         self.output_dir = os.path.abspath(output_dir)
 
     def setup_ui_components(self):
@@ -51,6 +76,11 @@ class FileProcessingTab(BaseTab):
         system_prompt_layout = QHBoxLayout()
         self.system_prompt_selector = QComboBox()
         self.system_prompt_selector.addItem('无')  # 默认选项
+        
+        # 设置系统提示词选择器的宽度和大小策略
+        self.system_prompt_selector.setMinimumWidth(200)  # 设置最小宽度为250像素
+        from PyQt5.QtWidgets import QSizePolicy
+        self.system_prompt_selector.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)  # 允许水平方向扩展
         
         # 打开系统提示词文件夹按钮
         open_prompts_folder_btn = QPushButton('打开文件夹')
@@ -323,9 +353,10 @@ class FileProcessingTab(BaseTab):
         self.total_files = 0
         
         # 添加初始提示信息
-        self.output_area.setText("拖放文件到上方区域，点击'运行'按钮开始生成学习卡片。\n\n"
-                                 "选择或自定义系统提示词，可以调整输出卡片的内容、风格、侧重点等等。\n\n"
-                                 "学习卡片将保存在程序目录下的output_cards文件夹中。")
+        self.output_area.setText(   "使用前请参照帮助与支持配置相关内容\n\n"
+                                    "拖放文件到上方区域，点击'运行'按钮开始生成学习卡片。\n\n"
+                                    "选择或自定义问答风格，可以调整输出卡片的内容、侧重点等等。\n\n"
+                                    "处理结束后会弹出结果文件,在此之前请不要关闭程序。")
     
     def on_process_type_changed(self, process_type):
         """当处理方式改变时更新UI"""
@@ -516,7 +547,7 @@ class FileProcessingTab(BaseTab):
         self.progress_bar.setValue(progress_percentage)
         
         # 更新状态标签
-        status_text = f'处理中... {progress_percentage}% ({current}/{total})'
+        status_text = f'正在处理部分: {progress_percentage}% ({current}/{total})'
         if message:
             status_text += f' - {message}'
         self.status_label.setText(status_text)
@@ -640,6 +671,8 @@ class FileProcessingTab(BaseTab):
                             section_count = self.parent.split_md_by_title(file_path, temp_dir)
                         elif file_path.lower().endswith('.txt'):
                             section_count = self.parent.split_txt_by_section(file_path, temp_dir)
+                        elif file_path.lower().endswith('.pdf'):
+                            section_count = self.parent.split_pdf_by_page(file_path, temp_dir)
                         else:
                             self.log_message(f"不支持的文件类型: {os.path.splitext(file_path)[1]}")
                             return False
@@ -724,13 +757,6 @@ class FileProcessingTab(BaseTab):
                             
                             self.log_message(f"\n--- 开始处理片段 {processed_sections}/{section_count}: {section_file} ---")
                             
-                            # 更新进度 - 使用小片段进度
-                            progress_message = f"处理文件 {file_index}/{total_files}: {os.path.basename(file_path)} - 片段 {processed_sections}/{section_count}"
-                            self.update_progress(
-                                (file_index - 1) * 100 + (processed_sections * 100) // section_count,
-                                total_files * 100,
-                                progress_message
-                            )
                             
                             # 处理当前片段，传递原始文件路径用于生成输出
                             start_time = time.time()
@@ -744,6 +770,14 @@ class FileProcessingTab(BaseTab):
                             # 输出已经在process_section中处理了，这里不再需要写入CSV
                             
                             self.log_message(f"--- 片段 {processed_sections}/{section_count} 处理完成 ---\n")
+                            
+                            # 更新进度 - 使用小片段进度
+                            progress_message = f"处理文件 {file_index}/{total_files}: {os.path.basename(file_path)} - 片段 {processed_sections}/{section_count}"
+                            self.update_progress(
+                                (file_index - 1) * 100 + (processed_sections * 100) // section_count,
+                                total_files * 100,
+                                progress_message
+                            )
                         
                         # 完成处理
                         card_count = len(all_cards)
@@ -992,6 +1026,16 @@ class FileProcessingTab(BaseTab):
                         
                         self.log_message(f"提取的响应文本: {response_text}")
                         
+                        # 在 process_section 方法中添加完整性检查
+                        if not response_text.strip().endswith('}'):
+                            # 尝试自动补全缺失的闭合符号
+                            response_text = response_text.strip()
+                            while response_text.count('{') > response_text.count('}'):
+                                response_text += '}'
+                            while response_text.count('[') > response_text.count(']'):
+                                response_text += ']'
+                            self.log_message(f"自动补全后的JSON: {response_text[-50:]}...")
+
                         # 增强版JSON提取逻辑，处理可能包含代码块的情况
                         try:
                             # 首先尝试直接解析为JSON（如果完整响应就是JSON）
@@ -1002,63 +1046,101 @@ class FileProcessingTab(BaseTab):
                             except json.JSONDecodeError:
                                 # 如果直接解析失败，尝试提取代码块中的JSON
                                 
-                                # 检查是否有 ```json 标记
-                                if "```json" in response_text:
-                                    self.log_message(f"检测到JSON代码块格式，尝试提取")
-                                    # 查找第一个 ```json 的位置
-                                    start_pos = response_text.find("```json") + 7
-                                    # 找到匹配的结束 ``` 
-                                    # 这里要特别处理答案中可能包含的代码块
-                                    json_block = response_text[start_pos:]
-                                    
-                                    # 找到最外层JSON代码块的结束位置
-                                    # 计算大括号的嵌套深度
-                                    brace_depth = 0
-                                    found_first_brace = False
-                                    end_pos = -1
-                                    
-                                    for i, char in enumerate(json_block):
-                                        if char == '{':
-                                            brace_depth += 1
-                                            found_first_brace = True
-                                        elif char == '}':
-                                            brace_depth -= 1
-                                            if found_first_brace and brace_depth == 0:
-                                                # 找到了匹配的最外层右大括号
-                                                end_pos = i + 1  # 包含右大括号
-                                                break
-                                    
-                                    if end_pos != -1:
-                                        json_str = json_block[:end_pos].strip()
-                                        self.log_message(f"成功根据大括号匹配提取JSON: 长度 {len(json_str)}")
-                                    else:
-                                        # 如果无法通过大括号匹配找到，使用传统方法
-                                        json_str = json_block.split("```")[0].strip()
-                                        self.log_message(f"通过传统方法提取JSON: 长度 {len(json_str)}")
-                                
-                                # 如果没有 ```json 但有其他代码块标记
-                                elif "```" in response_text:
-                                    self.log_message(f"检测到代码块格式，尝试提取")
-                                    # 查找第一个 ``` 的位置，这个可能是任何类型的代码块
-                                    parts = response_text.split("```")
-                                    if len(parts) >= 3:  # 至少要有开始和结束的 ```
-                                        # 提取第一个代码块内容，忽略代码块类型标记
-                                        code_block = parts[1].strip()
-                                        if code_block.split("\n")[0].strip() in ["json", "javascript", "js"]:
-                                            # 如果代码块类型是json或js相关，去掉第一行
-                                            json_str = "\n".join(code_block.split("\n")[1:]).strip()
+                                try:
+                                    # 检查是否有 ```json 标记
+                                    if "```json" in response_text:
+                                        self.log_message(f"检测到JSON代码块格式，尝试提取")
+                                        # 查找第一个 ```json 的位置
+                                        start_pos = response_text.find("```json") + 7
+                                        # 找到匹配的结束 ``` 
+                                        # 这里要特别处理答案中可能包含的代码块
+                                        json_block = response_text[start_pos:]
+                                        
+                                        # 找到最外层JSON代码块的结束位置
+                                        # 计算大括号的嵌套深度
+                                        brace_depth = 0
+                                        found_first_brace = False
+                                        end_pos = -1
+                                        
+                                        for i, char in enumerate(json_block):
+                                            if char == '{':
+                                                brace_depth += 1
+                                                found_first_brace = True
+                                            elif char == '}':
+                                                brace_depth -= 1
+                                                if found_first_brace and brace_depth == 0:
+                                                    # 找到了匹配的最外层右大括号
+                                                    end_pos = i + 1  # 包含右大括号
+                                                    break
+                                        
+                                        if end_pos != -1:
+                                            json_str = json_block[:end_pos].strip()
+                                            self.log_message(f"成功根据大括号匹配提取JSON: 长度 {len(json_str)}")
                                         else:
-                                            json_str = code_block
-                                        self.log_message(f"从代码块中提取内容: 长度 {len(json_str)}")
+                                            # 如果无法通过大括号匹配找到，使用传统方法
+                                            json_str = json_block.split("```")[0].strip()
+                                            self.log_message(f"通过传统方法提取JSON: 长度 {len(json_str)}")
+                                    
+                                    # 如果没有 ```json 但有其他代码块标记
+                                    elif "```" in response_text:
+                                        self.log_message(f"检测到代码块格式，尝试提取")
+                                        # 查找第一个 ``` 的位置，这个可能是任何类型的代码块
+                                        parts = response_text.split("```")
+                                        if len(parts) >= 3:  # 至少要有开始和结束的 ```
+                                            # 提取第一个代码块内容，忽略代码块类型标记
+                                            code_block = parts[1].strip()
+                                            if code_block.split("\n")[0].strip() in ["json", "javascript", "js"]:
+                                                # 如果代码块类型是json或js相关，去掉第一行
+                                                json_str = "\n".join(code_block.split("\n")[1:]).strip()
+                                            else:
+                                                json_str = code_block
+                                            self.log_message(f"从代码块中提取内容: 长度 {len(json_str)}")
+                                        else:
+                                            # 异常情况，直接使用原始响应
+                                            json_str = response_text.strip()
+                                            self.log_message(f"无法识别代码块，使用原始文本")
+
                                     else:
-                                        # 异常情况，直接使用原始响应
+                                        # 如果没有代码块标记，直接使用原始文本
                                         json_str = response_text.strip()
-                                        self.log_message(f"无法识别代码块，使用原始文本")
-                                else:
-                                    # 如果没有代码块标记，直接使用原始文本
-                                    json_str = response_text.strip()
-                                    self.log_message(f"使用原始文本作为JSON")
-                                
+                                        self.log_message(f"使用原始文本作为JSON")
+
+                                except Exception as e:
+                                    # 如果所有尝试都失败，使用正则表达式从文本中直接提取问答对
+                                    self.log_message(f"所有通过格式的JSON提取方法均失败，尝试正则表达式解析")
+                                    
+                                    # 使用增强的正则表达式匹配问答模式
+                                    qa_pattern = re.compile(
+                                        r'(问题\d*[:：]?\s*|q[:：]?\s*)(?P<question>.+?)\n'
+                                        r'(答案\d*[:：]?\s*|a[:：]?\s*)(?P<answer>.+?)(?=\n\s*(问题|q|$))',
+                                        re.DOTALL | re.IGNORECASE
+                                    )
+                                    
+                                    cards = []
+                                    for match in qa_pattern.finditer(response_text):
+                                        question = match.group('question').strip()
+                                        answer = match.group('answer').strip()
+                                        
+                                        import re
+                                        # 清理可能存在的引号和特殊符号
+                                        question = re.sub(r'^["\']|["\']$', '', question)
+                                        answer = re.sub(r'^["\']|["\']$', '', answer)
+                                        
+                                        if question and answer:
+                                            cards.append({'q': question, 'a': answer})
+                                            self.log_message(f"通过正则提取到卡片: Q:{question[:30]}... A:{answer[:30]}...")
+                                    
+                                    if cards:
+                                        self.log_message(f"通过正则表达式成功提取 {len(cards)} 个问答对")
+                                        # 将提取的卡片写入CSV
+                                        with open(output_file, 'a', newline='', encoding='utf-8') as f:
+                                            writer = csv.writer(f)
+                                            for card in cards:
+                                                writer.writerow([card['q'], card['a']])
+                                        return cards
+                                    else:
+                                        self.log_message(f"正则表达式解析失败: 未找到有效问答对")
+                                        raise json.JSONDecodeError(f"无法从响应中提取有效JSON或问答对", response_text, 0)                                
                                 # 尝试将提取的内容解析为JSON
                                 try:
                                     cards_data = json.loads(json_str)
@@ -1445,6 +1527,84 @@ class FileProcessingTab(BaseTab):
             import traceback
             self.output_area.append(traceback.format_exc())
             return 0
+            
+    def split_pdf_by_page(self, file_path, output_dir):
+        """PDF文件分割方法 - 按页或固定字符数分割"""
+        try:
+            # 确保输出目录存在
+            os.makedirs(output_dir, exist_ok=True)
+            
+            # 导入PyPDF2库
+            from PyPDF2 import PdfReader
+            
+            # 打开PDF文件
+            reader = PdfReader(file_path)
+            total_pages = len(reader.pages)
+            
+            if total_pages == 0:
+                self.output_area.append(f"PDF文件为空: {os.path.basename(file_path)}")
+                return 0
+                
+            self.output_area.append(f"PDF文件共有 {total_pages} 页")
+            
+            # 分割参数
+            chars_per_section = 3000  # 每个段落包含的大约字符数
+            min_chars = 500  # 最小有效段落字符数
+            section_count = 0
+            current_text = ""
+            current_chars = 0
+            
+            # 按页提取文本
+            for page_num in range(total_pages):
+                # 获取当前页文本
+                page = reader.pages[page_num]
+                page_text = page.extract_text()
+                
+                # 清理页面文本
+                cleaned_page_text = self._clean_pdf_text(page_text)
+                
+                # 如果当前页文本加上已累积文本超过了字符限制，保存当前段落
+                if current_chars > 0 and current_chars + len(cleaned_page_text) > chars_per_section:
+                    # 保存当前段落
+                    if current_chars >= min_chars:
+                        section_count += 1
+                        output_file = os.path.join(output_dir, f"section_{section_count:03d}.txt")
+                        
+                        with open(output_file, 'w', encoding='utf-8') as f:
+                            f.write(current_text)
+                            
+                        # 重置当前文本和字符计数
+                        current_text = cleaned_page_text
+                        current_chars = len(cleaned_page_text)
+                    else:
+                        # 如果当前段落太短，继续累积
+                        current_text += "\n\n" + cleaned_page_text
+                        current_chars += len(cleaned_page_text)
+                else:
+                    # 累积文本
+                    if current_chars > 0:
+                        current_text += "\n\n" + cleaned_page_text
+                    else:
+                        current_text = cleaned_page_text
+                    current_chars += len(cleaned_page_text)
+            
+            # 保存最后一个段落（如果有）
+            if current_chars >= min_chars:
+                section_count += 1
+                output_file = os.path.join(output_dir, f"section_{section_count:03d}.txt")
+                
+                with open(output_file, 'w', encoding='utf-8') as f:
+                    f.write(current_text)
+            
+            Logger.info(f"PDF文件分割完成，共创建 {section_count} 个片段")
+            
+            return section_count
+            
+        except Exception as e:
+            self.output_area.append(f"分割PDF文件时出错: {str(e)}")
+            import traceback
+            self.output_area.append(traceback.format_exc())
+            return 0
     
     def _clean_pdf_text(self, text):
         """清理从PDF提取的文本"""
@@ -1513,88 +1673,112 @@ class FileProcessingTab(BaseTab):
         self.system_prompt_selector.clear()
         self.system_prompt_selector.addItem('无')
         
-        # 系统提示词文件夹路径 - 修改为使用当前工作目录
+        # 首先尝试从应用程序安装目录加载内置的提示词模板
         cwd = os.getcwd()
-        prompts_dir = os.path.join(cwd, 'system_prompts')
-        print(f"系统提示词文件夹路径: {prompts_dir}")
+        built_in_prompts_dir = os.path.join(cwd, 'system_prompts')
+        print(f"内置系统提示词文件夹路径: {built_in_prompts_dir}")
         
-        # 确保文件夹存在
-        if not os.path.exists(prompts_dir):
+        # 然后获取用户可写的提示词目录
+        user_prompts_dir = self.get_user_prompts_dir()
+        print(f"用户系统提示词文件夹路径: {user_prompts_dir}")
+        
+        # 确保用户文件夹存在
+        if not os.path.exists(user_prompts_dir):
             try:
-                os.makedirs(prompts_dir)
+                os.makedirs(user_prompts_dir)
                 if hasattr(self, 'output_area'):
-                    self.output_area.append(f"已创建系统提示词文件夹: {prompts_dir}")
-                print(f"已创建系统提示词文件夹: {prompts_dir}")
+                    self.output_area.append(f"已创建用户系统提示词文件夹: {user_prompts_dir}")
+                print(f"已创建用户系统提示词文件夹: {user_prompts_dir}")
             except Exception as e:
                 if hasattr(self, 'output_area'):
-                    self.output_area.append(f"创建系统提示词文件夹失败: {str(e)}")
-                print(f"创建系统提示词文件夹失败: {str(e)}")
-                self.system_prompt_selector.blockSignals(False)
-                return
+                    self.output_area.append(f"创建用户系统提示词文件夹失败: {str(e)}")
+                print(f"创建用户系统提示词文件夹失败: {str(e)}")
         
-        # 列出文件夹中的文本文件
-        try:
-            files = [f for f in os.listdir(prompts_dir) if f.endswith(('.txt', '.md'))]
-            files.sort()  # 按字母顺序排序
-            
-            for file in files:
-                # 添加文件名（不含扩展名）
-                prompt_name = os.path.splitext(file)[0]
-                self.system_prompt_selector.addItem(prompt_name)
-            
-            if hasattr(self, 'output_area'):
-                self.output_area.append(f"已加载 {len(files)} 个系统提示词")
-            print(f"已加载 {len(files)} 个系统提示词")
-            
-            # 尝试恢复之前的选择
-            if current_selection and self.system_prompt_selector.findText(current_selection) >= 0:
-                self.system_prompt_selector.setCurrentText(current_selection)
-                
-        except Exception as e:
-            if hasattr(self, 'output_area'):
-                self.output_area.append(f"加载系统提示词失败: {str(e)}")
-            print(f"加载系统提示词失败: {str(e)}")
+        # 收集所有提示词文件
+        prompt_files = []
+        
+        # 先加载内置提示词(如果目录存在)
+        if os.path.exists(built_in_prompts_dir):
+            try:
+                built_in_files = [f for f in os.listdir(built_in_prompts_dir) if f.endswith(('.txt', '.md'))]
+                for file in built_in_files:
+                    prompt_name = os.path.splitext(file)[0]
+                    # 记录文件全路径和名称
+                    prompt_files.append((os.path.join(built_in_prompts_dir, file), prompt_name, "内置"))
+            except Exception as e:
+                print(f"读取内置提示词目录出错: {str(e)}")
+        
+        # 再加载用户提示词
+        if os.path.exists(user_prompts_dir):
+            try:
+                user_files = [f for f in os.listdir(user_prompts_dir) if f.endswith(('.txt', '.md'))]
+                for file in user_files:
+                    prompt_name = os.path.splitext(file)[0]
+                    # 记录文件全路径和名称
+                    prompt_files.append((os.path.join(user_prompts_dir, file), prompt_name, "用户"))
+            except Exception as e:
+                print(f"读取用户提示词目录出错: {str(e)}")
+        
+        # 按名称排序并添加到下拉框
+        prompt_files.sort(key=lambda x: x[1])  # 按提示词名称排序
+        
+        for full_path, prompt_name, source in prompt_files:
+            # 用户提示词优先级更高，可能会覆盖同名的内置提示词
+            self.system_prompt_selector.addItem(prompt_name)
+        
+        if hasattr(self, 'output_area'):
+            self.output_area.append(f"已加载 {len(prompt_files)} 个系统提示词模板")
+        
+        # 恢复之前的选择(如果存在)
+        if current_selection and self.system_prompt_selector.findText(current_selection) >= 0:
+            self.system_prompt_selector.setCurrentText(current_selection)
+        else:
+            # 默认选择第一个提示词(如果有)
+            if self.system_prompt_selector.count() > 1:
+                self.system_prompt_selector.setCurrentIndex(1)
         
         self.system_prompt_selector.blockSignals(False)
+    
+    def get_user_prompts_dir(self):
+        """获取用户系统提示词目录的路径"""
+        import os
+        import tempfile
+        
+        try:
+            # 首先尝试使用APPDATA环境变量(Windows)
+            if 'APPDATA' in os.environ:
+                return os.path.join(os.environ['APPDATA'], 'Memoride', 'system_prompts')
+            # 其次尝试使用用户主目录
+            elif 'HOME' in os.environ:
+                return os.path.join(os.environ['HOME'], '.memoride', 'system_prompts')
+            # 最后使用临时目录
+            else:
+                return os.path.join(tempfile.gettempdir(), 'memoride_system_prompts')
+        except Exception as e:
+            print(f"获取用户提示词目录时出错: {str(e)}")
+            return os.path.join(os.getcwd(), 'user_system_prompts')
     
     def open_system_prompts_folder(self):
         """打开系统提示词文件夹"""
         import os
-        import subprocess
+        from PyQt5.QtGui import QDesktopServices
+        from PyQt5.QtCore import QUrl
         
-        # 系统提示词文件夹路径 - 修改为使用当前工作目录
-        cwd = os.getcwd()
-        prompts_dir = os.path.join(cwd, 'system_prompts')
-        print(f"系统提示词文件夹路径: {prompts_dir}")
+        # 获取用户可写的提示词目录
+        user_prompts_dir = self.get_user_prompts_dir()
         
-        # 确保文件夹存在
-        if not os.path.exists(prompts_dir):
+        # 确保目录存在
+        if not os.path.exists(user_prompts_dir):
             try:
-                os.makedirs(prompts_dir)
-                self.output_area.append(f"已创建系统提示词文件夹: {prompts_dir}")
-                print(f"已创建系统提示词文件夹: {prompts_dir}")
+                os.makedirs(user_prompts_dir)
             except Exception as e:
-                self.output_area.append(f"创建系统提示词文件夹失败: {str(e)}")
-                print(f"创建系统提示词文件夹失败: {str(e)}")
+                if hasattr(self, 'output_area'):
+                    self.output_area.append(f"创建系统提示词文件夹失败: {str(e)}")
                 return
         
         # 打开文件夹
-        try:
-            # 使用操作系统默认的文件浏览器打开文件夹
-            if os.name == 'nt':  # Windows
-                os.startfile(prompts_dir)
-            elif os.name == 'posix':  # Linux, Mac OS X
-                if os.uname().sysname == 'Darwin':  # Mac OS X
-                    subprocess.call(['open', prompts_dir])
-                else:  # Linux
-                    subprocess.call(['xdg-open', prompts_dir])
-            
-            self.output_area.append(f"已打开系统提示词文件夹: {prompts_dir}")
-            print(f"已打开系统提示词文件夹: {prompts_dir}")
-        except Exception as e:
-            self.output_area.append(f"打开系统提示词文件夹失败: {str(e)}")
-            print(f"打开系统提示词文件夹失败: {str(e)}")
-            
+        QDesktopServices.openUrl(QUrl.fromLocalFile(user_prompts_dir))
+
     def get_selected_system_prompt(self):
         """获取选中的系统提示词内容"""
         import os
@@ -1602,23 +1786,48 @@ class FileProcessingTab(BaseTab):
         selected_prompt = self.system_prompt_selector.currentText()
         if selected_prompt == '无':
             return None
-            
-        # 系统提示词文件夹路径 - 修改为使用当前工作目录
-        cwd = os.getcwd()
-        prompts_dir = os.path.join(cwd, 'system_prompts')
         
+        # 首先检查用户提示词目录
+        user_prompts_dir = self.get_user_prompts_dir()
+        
+        # 然后检查内置提示词目录
+        cwd = os.getcwd()
+        built_in_prompts_dir = os.path.join(cwd, 'system_prompts')
+        
+        # 先在用户目录查找(优先级更高)
+        prompt_content = self._read_prompt_file(user_prompts_dir, selected_prompt)
+        if prompt_content is not None:
+            return prompt_content
+            
+        # 然后在内置目录查找
+        prompt_content = self._read_prompt_file(built_in_prompts_dir, selected_prompt)
+        if prompt_content is not None:
+            return prompt_content
+            
+        if hasattr(self, 'output_area'):
+            self.output_area.append(f"系统提示词文件不存在: {selected_prompt}")
+        print(f"系统提示词文件不存在: {selected_prompt}")
+        return None
+        
+    def _read_prompt_file(self, directory, prompt_name):
+        """从指定目录读取提示词文件内容"""
+        import os
+        
+        # 检查目录是否存在
+        if not os.path.exists(directory):
+            return None
+            
         # 查找可能的文件扩展名
         for ext in ['.txt', '.md']:
-            prompt_file = os.path.join(prompts_dir, selected_prompt + ext)
+            prompt_file = os.path.join(directory, prompt_name + ext)
             if os.path.exists(prompt_file):
                 try:
                     with open(prompt_file, 'r', encoding='utf-8') as f:
                         return f.read().strip()
                 except Exception as e:
-                    self.output_area.append(f"读取系统提示词文件失败: {str(e)}")
+                    if hasattr(self, 'output_area'):
+                        self.output_area.append(f"读取系统提示词文件失败: {str(e)}")
                     print(f"读取系统提示词文件失败: {str(e)}")
                     return None
-        
-        self.output_area.append(f"系统提示词文件不存在: {selected_prompt}")
-        print(f"系统提示词文件不存在: {selected_prompt}")
+                    
         return None

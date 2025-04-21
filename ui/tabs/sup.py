@@ -39,13 +39,29 @@ class SupportTab(BaseTab):
         title_label.setFont(font)
         content_layout.addWidget(title_label)
         
-        # 添加支持作者区域 (现在放在最上面)
-        support_group = QGroupBox("支持作者")
-        support_layout = QVBoxLayout()
         
+        # 定义一个统一的QGroupBox样式，统一支持作者和软件用途说明
+        group_box_style = """
+            QGroupBox {
+                margin-top: 30px; 
+                padding-top: 15px;
+                font-family: "Microsoft YaHei", "SimHei", sans-serif;
+                font-size: 18px;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                subcontrol-position: top left;
+                padding: 5px 10px;
+            }
+        """
+        # 添加支持作者区域
+        support_group = QGroupBox("支持作者 ✧(๑•̀ㅂ•́)و")
+        support_group.setStyleSheet(group_box_style)
+        support_layout = QVBoxLayout()
+
         support_text = QLabel(
             "<h3>如果您觉得本软件对您有帮助，可以通过以下方式支持作者：</h3>"
-            "<p>您的支持是我持续改进软件的动力！</p>"
+            "<p>您的支持是我持续改进软件的动力！(＾▽＾)</p>"
             #添加联系邮箱
             "<p>如有建议与诉求，请联系QQ/邮箱：<a href='mailto:1600014464@qq.com'>1600014464@qq.com</a></p>"
         )
@@ -60,7 +76,7 @@ class SupportTab(BaseTab):
         # 微信收款码
         wechat_group = QWidget()
         wechat_layout = QVBoxLayout(wechat_group)
-        wechat_label = QLabel("☕️请开发者喝杯咖啡")
+        wechat_label = QLabel("☕️请开发者喝杯咖啡 (￣▽￣)")
         wechat_label.setAlignment(Qt.AlignCenter)
         wechat_label.setFont(QFont("", 12, QFont.Bold))
         
@@ -113,7 +129,8 @@ class SupportTab(BaseTab):
         content_layout.addWidget(support_group)
         
         # 添加帮助信息区域 (现在放在下面)
-        help_group = QGroupBox("软件使用指南")
+        help_group = QGroupBox("软件使用指南 (๑╹◡╹)ﾉ")
+        help_group.setStyleSheet(group_box_style)
         help_layout = QVBoxLayout()
         
         # 软件用途说明
@@ -121,7 +138,7 @@ class SupportTab(BaseTab):
             "<h3>软件用途</h3>"
             "<p>心动记忆是一款本地LLM应用工具，主要功能包括：</p>"
             "<ul>"
-            "<li>文件处理：分析和处理文档内容</li>"
+            "<li>文件处理：针对上传知识内容，以不同风格生成对话式学习卡片，助你在不知不觉中记忆知识点</li>"
             "<li>智能对话：与本地或远程AI模型对话</li>"
             "<li>灵活选择AI模型：支持本地Ollama模型和远程API模型</li>"
             "</ul>"
@@ -136,13 +153,15 @@ class SupportTab(BaseTab):
             "<h4>模型来源选择</h4>"
             "<p>在顶部可以选择使用Ollama本地模型或远程API模型：</p>"
             "<ul>"
-            "<li><b>Ollama本地模型</b>：需要先安装Ollama并下载相关模型</li>"
-            "<li><b>远程API模型</b>：需要配置API连接信息，如URL和API密钥</li>"
+            "<li><b>Ollama本地模型</b>：</li>"
+            "<li>不花钱。但是需要先安装Ollama并下载相关模型,并且需要高性能配置(大显存,大内存)支持,且运行缓慢。建议夜间使用 (￣ω￣)</li>"
+            "<li><b>远程API模型</b>：</li>"
+            "<li>花点小钱。但是速度快，且流畅。建议使用deepseek模型api（便宜）</li>"
             "</ul>"
-            "<h4>文件处理</h4>"
-            "<p>1. 选择文件 → 2. 选择处理方式 → 3. 点击处理按钮</p>"
+            "<h4>文件处理 </h4>"
+            "<p>1. 选择文件 → 2. 选择问答风格 → 3. 选择处理方式 → 4. 点击处理按钮</p>"
             "<h4>对话功能</h4>"
-            "<p>1. 输入问题 → 2. 点击发送或按Enter → 3. 查看AI回答</p>"
+            "<p>1. 输入问题 → 2. 点击发送 → 3. 等待AI回答</p>"
         )
         usage_label.setTextFormat(Qt.RichText)
         usage_label.setWordWrap(True)
@@ -156,3 +175,7 @@ class SupportTab(BaseTab):
         
         # 将滚动区域添加到主布局
         self.layout.addWidget(scroll_area)
+        
+    def cleanup_resources(self):
+        """清理标签页资源的方法，在主窗口关闭时会被调用"""
+        print("支持与帮助标签页资源已清理")

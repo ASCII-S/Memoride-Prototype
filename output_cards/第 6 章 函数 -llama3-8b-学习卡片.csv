@@ -1,0 +1,73 @@
+问题,答案
+调用运算符是可重载的？,是，C++ 的一个特殊运算符，可以通过在类中重载该运算符，使类的对象具备类似函数的行为。
+调用运算符的基本语法是什么？,return_type operator()(parameters) const { }
+什么是隐式空形参列表？,在 C++ 中，void f1() 定义了一个不接受参数的函数。
+what is void f2(void) in C and C++?,void f2(void) 明确表示函数没有参数。编译器会强制检查，调用时不能传递任何参数。void 是一个占位符，用来明确指定函数没有参数。
+什么是名字的作用域？,名字的作用域是指程序文本中一个名字（如变量名、函数名、类名等）可见和可以访问的范围。
+What is the scope of a name defined inside a code block?,The scope of a name defined inside a code block ({}) is from its definition to the end of the code block.
+What is the global scope?,"The global scope refers to names defined outside all functions or classes, whose scope is the entire program."
+What is the class scope?,"The class scope refers to members (including member variables and member functions) of a class, whose scope is within the class definition."
+What is the namespace scope?,"The namespace scope refers to names defined inside a namespace, whose scope is the entire namespace."
+What is the file scope?,"The file scope refers to names using the static keyword, which has its scope limited to the current file."
+What is the lifetime of an object?,The lifetime of an object refers to the time period from when it is created to when it is destroyed during program execution.
+What are the categories of object lifetimes?,"The categories of object lifetimes are Automatic Storage Duration, Static Storage Duration, Dynamic Storage Duration, and Thread Storage Duration."
+What is Automatic Storage Duration?,Automatic Storage Duration refers to local variables that are created when entering their enclosing scope and destroyed when exiting it.
+What is Static Storage Duration?,"Static Storage Duration refers to global variables and static variables, whose lifetime is the entire program's execution time."
+What is Dynamic Storage Duration?,"Dynamic Storage Duration refers to objects allocated using new or malloc, whose lifetime is controlled by the program."
+What is Thread Storage Duration?,"Thread Storage Duration refers to variables declared with thread_local, whose lifetime spans the execution time of a single thread."
+How do scope and lifetime relate to each other?,"Scope refers to where a name can be seen in a program, while lifetime refers to when an object exists. They are independent concepts but can interact through dynamic memory allocation."
+What is the meaning of `argc` and `argv` in the context of a C++ program?,"`argc` represents the number of command-line arguments passed to the program, while `argv` is an array of character pointers pointing to the individual command-line arguments."
+How does `argv` differ from `char *argv[]`?,"Both `argv` and `char *argv[]` represent a pointer to an array of character pointers, where each element in the array points to a command-line argument. The difference is in the declaration syntax."
+What is the purpose of using initialization lists or variable-argument templates in C++?,"To allow functions to accept unknown numbers of arguments with the same type, either through `std::initializer_list` or `template <typename... Args>`."
+How can you use `std::initializer_list` to pass a series of elements to a function?,By using curly braces `{}` when calling the function and passing a list of identical-type arguments.
+What is the purpose of `template <typename... Args>` in C++?,"To allow functions to accept an arbitrary number and type of arguments, which can be expanded through template metaprogramming."
+What is the purpose of template <typename... Args>?,It defines a variable parameter template that can match any number of type-identical or different parameters.
+"How does the fold expression (std::cout << args << "" "", ...) work in the function body?",It expands the args... to print all the passed arguments in sequence.
+What is the return type of a function in C++?,"When a function returns a value, it's actually initializing a temporary variable at the call site with the returned value."
+Why should not a function return a local object's reference or pointer?,Because the lifetime of the returned object is tied to the caller and may lead to undefined behavior if the object goes out of scope before being fully used.
+What happens when you return an array from a function?,"The returned array's elements can be directly accessed by the caller, as if it were a left-value."
+Can a function return a std::initializer_list?,"Yes, starting from C++11, a function can return a `std::initializer_list` to return a list of values that cannot be modified after initialization."
+What is the difference between returning an std::initializer_list and a vector?,"An `std::initializer_list` is read-only and has its elements' lifetime managed by the compiler, while a `vector` allows modification and has dynamic size."
+How can you return a list of values that cannot be modified after initialization?,By returning an `std::initializer_list` or using another container type like `std::vector` if modification is allowed.
+What is the advantage of using `std::array`?,"return std::array<int, 3>{1, 2, 3};"
+How to return a fixed-size array pointer in C++?,可以通过类型别名、直接声明返回数组指针、尾置返回类型或使用 `decltype` 实现。
+What is the benefit of using type aliases?,简化复杂声明，提高代码可读性。
+How to declare a return array pointer directly?,数组指针的声明形式：type (*functionName())[size]。
+What is trailing return type (Trailing Return Type)?,通过 `auto` 和 `>` 声明，编译器会在尾部解析返回的数组指针类型。
+How to use `decltype` to return an array pointer?,自动推导表达式的类型，用于函数返回值时特别适合。
+What is the recommended way to return an array pointer in modern C++ (C++11 and above)?,优先使用尾置返回类型或 `decltype`，代码简洁且符合现代风格。
+How to overload a function with different return types?,函数重载
+函数重载判断两个形参的类型是否相异?,最关键的是判断在用实参初始化形参时，形参只要类型、数量不一致，便是可以重载的。
+判断函数重载时，顶层 `const` 是否影响结果?,顶层 `const` 是指对参数本身的 `const` 修饰，在判断函数是否重载时会被忽略。
+判断函数重载时，底层 `const` 是否影响结果?,底层 `const` 是指修饰指针指向的对象，在重载判断时是有效的。
+引用类型在函数重载中的区分?,引用和非引用、常量引用和非常量引用会被认为是不同类型。主要是因为传入引用参数时，直接传入别名，而不是副本。
+判断函数重载时，参数数量是否不同?,只要参数数量不同，即使类型相同，也可以合法重载。
+参数顺序不同是否可以合法重载?,如果形参的类型相同但顺序不同，可以合法重载。
+默认参数不能用于区分函数重载吗?,是的，默认参数不会被用于区分函数重载。
+返回值类型不同是否可以构成函数重载?,否，因为函数调用通过函数名和参数列表的匹配来解析调用的具体函数，而返回值类型是函数调用后才确定的，无法在调用时参与解析。
+内层作用域会隐藏外层作用域的同名函数吗?,是，如果在内层作用域中声明了一个与外层作用域同名的实体，无论是变量还是函数，内层的声明都会隐藏外层作用域的同名实体。
+为什么在不同作用域中无法重载函数名？,因为重载发生在同一个作用域中，C++ 编译器会根据参数列表的差异来区分同名的函数。如果函数在不同作用域中定义，则它们属于不同的上下文，编译器不认为它们是同一个集合中的重载。
+如何解决作用域与重载的冲突？,可以通过显式使用外层作用域的函数（如 `::func();`）或使用 `using` 声明将外层函数引入到内层作用域（如 `using ::func; func();`）。
+什么是内联函数？,将函数指定为内联函数 (inline)，通常就是将它在每个调用点上“内联地”展开，避免了传统函数调用的栈操作开销。
+constexpr 函数的特点有哪些?,1. 编译期求值：如果 constexpr 函数的所有实参都是常量表达式，则函数本身会在编译期执行，生成一个常量结果。2. 运行时调用：constexpr 函数也可以在运行时调用。如果传入的实参不是常量表达式，则会在运行时求值。3. 限制：返回类型及所有形参的类型必须是 字面值类型。
+什么是 constexpr 函数？,constexpr 函数是一种可以在 C++ 中的编译期计算其结果的函数，用于支持常量表达式。与普通函数类似，但有特定的限制和用途。
+什么是 assert 预处理宏？,assert 是一种预处理宏。所谓预处理宏其实是一个预处理变量，它的行为有点类似于内联函数。它的作用是在条件下断言某个表达式为真，如果不是，程序会打印错误信息，并终止执行。
+为什么需要将内联函数和 constexpr 函数放在头文件内？,---
+如果定义了 NDEBUG，assert 宏会被替换为空操作，运行时不会进行任何检查。,是
+如何定义 NDEBUG,可以在代码中通过 #define NDEBUG 定义 NDEBUG。也可以在编译时通过编译器选项 -DNDEBUG 定义 NDEBUG。
+什么是 NDEBUG,NDEBUG 是一个预处理变量，如果定义了它，assert 宏会被替换为空操作，运行时不会进行任何检查。
+如何使用 __FILE__、__LINE__、__TIME__ 和 __DATE__ 宏,"可以通过 cout 打印：cout << ""当前文件名是"" << __FILE__ << ""，当前行号是"" << __LINE__ << ""，当前编译时间是"" << __TIME__ << ""，当前编译日期是"" << __DATE__;"
+函数匹配是什么,函数匹配出现在传入参数类型与定义参数类型不一致，但是可以通过实参类型转换得到函数希望的参数，进而匹配函数重载的情况。
+函数指针是什么,在 C++ 中，函数指针是一种指针类型，它指向的是函数而非对象。与普通指针类似，函数指针也有类型，但这个类型由函数的 返回类型 和 形参列表 决定，而与函数的名字无关。
+如何定义函数指针,返回类型 (*指针变量名)(形参列表); 函数名本质上是指向函数的地址，因此可以直接赋值给函数指针。
+函数指针的应用,函数指针的应用包括：通过函数指针调用函数，实现函数重载等。
+函数指针常用于回调机制，可以将一个函数指针作为参数传递给另一个函数。,函数指针可以将一个函数指针作为参数传递给另一个函数。
+函数可以返回一个函数指针，用于动态选择操作。,函数可以返回一个函数指针，用于动态选择操作。
+getOperation是一个函数？,getOperation是一个函数
+getOperation解引用后得到了一个函数类型，为什么getOperation的返回值是一个指针？,因为指针类型有形参列表，因此指针是函数指针，且所指函数返回类型是int
+使用auto关键字和尾指返回类型来返回函数指针的原因是什么？,使用auto关键字和尾指返回类型可以明确返回值是一个函数指针
+1. How to get the function type using decltype?,"Using decltype(fun), you can obtain the function type of fun."
+2. What is the purpose of decltype(add) * in the code?,"To obtain a pointer to the function add, which requires adding * after decltype(add)."
+3. How to use a function pointer array for managing a group of functions?,"You can use an array of function pointers like int (*operations[])(int, int) = {add, multiply, subtract}; to manage a group of functions."
+4. What happens when you point a pointer to an overloaded function?,"When pointing a pointer to an overloaded function, you must explicitly specify the type of the function using static_cast or manual selection, otherwise it will cause a compilation error."
+5. How does std::function compare to function pointers in C++11?,"std::function is a more powerful alternative to function pointers in C++11, supporting various callable objects (normal functions, function pointers, Lambda expressions, etc.)."

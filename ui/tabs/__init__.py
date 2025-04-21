@@ -3,10 +3,10 @@
 包含应用程序的各个功能标签页
 """
 
-from .base import BaseTab
-from .file import FileProcessingTab
-from .chat import ChatTab
-from .sup import SupportTab
+from ui.tabs.base import BaseTab
+from ui.tabs.file import FileProcessingTab
+from ui.tabs.chat import ChatTab
+from ui.tabs.sup import SupportTab
 # 导入其他标签页...
 
 __all__ = [

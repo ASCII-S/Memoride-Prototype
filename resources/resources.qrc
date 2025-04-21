@@ -3,5 +3,6 @@
     <qresource prefix="/images">
         <file>wechat_qr.png</file>
         <file>alipay_qr.png</file>
+        <file>icon.ico</file>
     </qresource>
 </RCC>  

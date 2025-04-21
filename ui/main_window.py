@@ -18,10 +18,10 @@ import core
 from core import Config
 
 # 导入其他UI组件
-from .helpers import UIHelper
+from ui.helpers import UIHelper
 
 # 导入对话框组件
-from .dialogs import ApiConfigDialog
+from ui.dialogs import ApiConfigDialog
 from core import ModelLoader
 # 导入核心组件
 from core.config_manager import ConfigManager
@@ -447,9 +447,13 @@ class MainWindow(QMainWindow):
         else:
             print("远程配置中没有可用的模型")
             
-        # 更新各个标签页
+        # 确保所有标签页都使用最新的API处理器
         for i in range(self.tabs.count()):
             tab = self.tabs.widget(i)
+            if hasattr(tab, 'api_handler'):
+                tab.api_handler = self.api_handler
+                
+            # 更新模型信息
             if hasattr(tab, 'model_selector'):
                 # 标签页中不再需要模型选择器，因为我们只使用配置中的单个模型
                 if hasattr(tab, 'update_model'):
@@ -1009,21 +1013,37 @@ class MainWindow(QMainWindow):
         if Config.MODEL_SOURCE == '远程API模型' and current_text == '+ 新增配置':
             # 直接打开新增配置对话框
             self.open_api_config_dialog(is_new_config=True)
-#
 
     def closeEvent(self, event):
         """程序关闭时的处理"""
         try:
+            # 关闭所有模型加载线程
+            if hasattr(self, 'loader_thread') and self.loader_thread.isRunning():
+                print("[程序关闭] 正在终止模型加载线程...")
+                self.loader_thread.quit()
+                if not self.loader_thread.wait(1000):  # 等待1秒
+                    self.loader_thread.terminate()
+                print("[程序关闭] 模型加载线程已终止")
+            
+            # 关闭所有标签页中可能的线程
+            for i in range(self.tabs.count()):
+                tab = self.tabs.widget(i)
+                # 检查标签页是否有特定的清理方法
+                if hasattr(tab, 'cleanup_resources'):
+                    print(f"[程序关闭] 正在清理标签页 {i} 的资源...")
+                    tab.cleanup_resources()
+            
             # 如果当前使用的是Ollama本地模型，关闭服务
             if Config.MODEL_SOURCE == 'Ollama本地模型' and hasattr(self, 'api_handler'):
                 # 不再卸载模型，直接关闭服务
                 print("[程序关闭] 正在关闭Ollama服务...")
                 import platform
+                import subprocess
+                
                 system = platform.system().lower()
                 
                 if system == "windows":
                     # Windows系统使用taskkill命令关闭ollama进程
-                    import subprocess
                     subprocess.run(["taskkill", "/F", "/IM", "ollama.exe"], 
                                  capture_output=True, 
                                  text=True)
@@ -1039,8 +1059,28 @@ class MainWindow(QMainWindow):
                                  text=True)
                 
                 print("[程序关闭] Ollama服务已关闭")
+                
+            # 关闭所有可能的子进程
+            if hasattr(self, 'model_manager'):
+                if hasattr(self.model_manager, 'cleanup'):
+                    print("[程序关闭] 正在清理模型管理器资源...")
+                    self.model_manager.cleanup()
+            
+            # 释放API处理器资源
+            if hasattr(self, 'api_handler'):
+                if hasattr(self.api_handler, 'close') and callable(self.api_handler.close):
+                    print("[程序关闭] 正在关闭API处理器...")
+                    self.api_handler.close()
+            
+            # 确保所有子窗口关闭
+            for widget in QApplication.topLevelWidgets():
+                if widget != self and isinstance(widget, QWidget) and widget.isVisible():
+                    print(f"[程序关闭] 关闭子窗口: {widget.windowTitle()}")
+                    widget.close()
+                
+            print("[程序关闭] 所有资源清理完成")
         except Exception as e:
-            print(f"[程序关闭] 关闭服务时出错: {str(e)}")
+            print(f"[程序关闭] 关闭过程中出错: {str(e)}")
         
         # 调用父类的closeEvent
         super().closeEvent(event)

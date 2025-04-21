@@ -3,12 +3,12 @@
 """
 
 # 导出主要类，使其可以通过 from core import X 直接导入
-from .error_handler import ErrorHandler
-from .api import get_api_handler
-from .config import Config
-from .config_manager import ConfigManager
-from .logging import Logger
-from .models import OllamaModelManager, RemoteApiManager, ModelLoader, ModelManager
+from core.error_handler import ErrorHandler
+from core.api import get_api_handler
+from core.config import Config
+from core.config_manager import ConfigManager
+from core.logging import Logger
+from core.models import OllamaModelManager, RemoteApiManager, ModelLoader, ModelManager
 
 # 版本信息
 __all__ = ['Logger', 'Config', 'ConfigManager', 'ErrorHandler', 'get_api_handler', 'OllamaModelManager', 'RemoteApiManager', 'ModelLoader', 'ModelManager']
