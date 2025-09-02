@@ -14,6 +14,14 @@ Memoride是一个桌面应用程序，旨在为用户提供一个友好的界面
 - **配置管理**：灵活的API配置和模型参数设置
 - **日志系统**：完整的日志记录，便于问题排查
 
+## 程序截图
+<img width="916" height="702" alt="image" src="https://github.com/user-attachments/assets/20dce47a-4572-41c6-bb8a-0b64d6888c59" />
+
+<img width="916" height="702" alt="image" src="https://github.com/user-attachments/assets/397ac77f-2ad0-43f2-baa7-4bcff56a2bfa" />
+
+<img width="916" height="702" alt="image" src="https://github.com/user-attachments/assets/4ed9df14-69a0-4636-b3e0-c8b1a317dfb9" />
+
+
 ## 系统要求
 
 - 操作系统：Windows/macOS/Linux
